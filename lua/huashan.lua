@@ -271,7 +271,7 @@ end
 huashan_fight=function(n,l,w)
     EnableTrigger("huashan_find2",false)
     job.id=string.lower(w[2])
-   exe('unset no_kill_ap;yield no')
+    exe('unset no_kill_ap;yield no')
     exe('follow '..job.id)
 	job.killer[job.target]=job.id
     
