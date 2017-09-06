@@ -6,4 +6,5 @@ cd  c:\MUSHS
 cd c:\GitHub\SJ-MUSH
 "c:\Program Files\WinRAR\WinRAR.exe" x c:\GitHub\SJ-MUSH\MUSHS.rar .\  
 "C:\Program Files (x86)\WinRAR\WinRAR.exe" x c:\GitHub\SJ-MUSH\MUSHS.rar .\  
+
 echo --------------------------  
