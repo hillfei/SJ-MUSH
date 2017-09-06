@@ -475,7 +475,7 @@ function songxin_kill_die(n,l,w)
     if w[1]==sxjob.killer2 then
        sxkiller2=1
        --messageShow('送信任务：搞定偷信杀手2：'..sxjob.killer2)
-	kezhiwugongRemoveTarget(w[2])
+	kezhiwugongRemoveTarget(w[1])
 	   kezhiwugongkill(1)
 	   --return songxinWaitKill1()
 	   wait.make(function() 
