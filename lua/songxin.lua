@@ -872,7 +872,7 @@ sx1tunaover=function()
     exe('halt;yun jing;yun qi')
 end
 sx1dazuo_desc=function()
- if sx1wait<10 then
+ if sx1wait<7 then
    exe('yun qi;sxlian;dazuo '..hp.dazuo)
    return 
  else
