@@ -344,8 +344,14 @@ function kezhiwugongsuccess(miaoshu,kezhi_cmd,k_order)
 	print("kezhisuccess="..kezhisuccess.."|npc_num="..npc_num)
 	if kezhisuccess==npc_num then
 		local tflag=1
+		for i=1,npc_num do
+			if not npcdienum[npc_name[i]] then
+				tflag=i
+				break
+			end
+		end
 		for i=2,npc_num do
-			if npc_order[i]~=nil and npc_order[i]<npc_order[tflag] then
+			if npc_order[i]~=nil and npc_order[i]<npc_order[tflag] and (not npcdienum[npc_name[i]]) then
 				print(npc_order[i],npc_order[tflag])
 				tflag=i
 			end

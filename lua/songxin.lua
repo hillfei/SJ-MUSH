@@ -434,11 +434,7 @@ function songxin_kill_1(n,l,w)
     sxjob.id1=string.lower(w[1])
 	job.killer[sxjob.killer1]=sxjob.id1
     exe('kill '..sxjob.id1)
-	if score.party=="Ã“ª®µ∫" then
-		exe("pfmmiao")
-	else 
-		exe("pfmgang")
-	end
+	exe("pfmwu")
 	kezhiwugongAddTarget(sxjob.killer1,sxjob.id1)
 	--killPfm(sxjob.id1)
 end

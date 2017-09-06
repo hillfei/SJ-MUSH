@@ -197,8 +197,13 @@ weapon_unwield=function()
     for p in pairs(Bag) do
 	    if Bag[p].kind and (not itemWield or itemWield[p]) then
 		   local _,l_cnt = isInBags(Bag[p].fullid)
-		   for i = 1,l_cnt do
-		       exe('unwield '.. Bag[p].fullid ..' '..i)
+		   if l_cnt > 2 then
+		   -- °µÆ÷ Í­Ç®µÈ
+		       exe('unwield '.. Bag[p].fullid)
+		   else 
+		       for i = 1,l_cnt do
+		          exe('unwield '.. Bag[p].fullid ..' '..i)
+			   end
 		   end
 		end
 	end
