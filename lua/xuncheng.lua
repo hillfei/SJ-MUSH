@@ -2,7 +2,7 @@ xuncheng={
 [1]='wu;eu;wu;nu;n;s;sd;ed;sd;sw;su;nd;w;nw;sw;u;d;ne;se;sw;su;yun jingli',
 [2]='nd;ne;sw;su;nd;ne;e;ne;ed;e;yun jingli',
 [3]='n;w;e;n;w;e;n;w;e;n;w;buy huasheng;buy doufu;eat huasheng;#2(drink);eat doufu;yun jingli',
-[4]='e;n;s;e;s;e;n;n;s;s;s;s;n;e;n;n;n;cun 2 gold;cun 50 silver;s;s;e;e;yun jingli',
+[4]='e;n;s;e;s;e;n;n;s;s;s;s;n;e;n;n;n;cun 10 gold;cun 50 silver;qu 9 silver;s;s;e;e;yun jingli',
 [5]='s;s;e;e;w;w;n;n;s;e;n;s;e;w;s;e;w;s;e;w;n;w;s;buy ban doufu;buy doufu gan;#2(eat doufu ganyun);#2(eat doufu gan);yun jingli',
 [6]='n;e;e;w;s;e;w;s;e;w;s;e;e;se;n;s;s;e;w;s;e;w;su;enter;yun jingli',
 [7]='d;d;d;e;e;up;e;w;d;w;w;up;up;up;out;nd;n;n;nw;yun jingli',
@@ -77,12 +77,12 @@ function xuncheng_go()
        Execute('yun jingli')
     end
     if hp.jingxue>=hp.jingxue_max*0.5 then
-       --Execute('#8(du book)')
+       --Execute('#8(play qi)')
     end
     Execute('hp')
     wait.make(function()
        wait.time(2)
-       exe('yun jing;du book')	   
+ 	   exe('yun jing;#3 (read medicine book)')
          if hp.jingli>100 then
             i=i+1
             xuncheng_step()
@@ -97,7 +97,7 @@ function xuncheng_step()
           --Execute('dazuo 30')
           wait.make(function()
              wait.time(1)
-			 exe('yun jing;du book')
+			 exe('yun jing;#3 (read medicine book)')
              check_busy(xuncheng_go)
           end)       
     else
@@ -107,7 +107,7 @@ end
 function xuncheng_wait()
     wait.make(function()
        wait.time(1)
-	   exe('yun jing;du book')
+	   exe('yun jing;#3 (read medicine book)')
        --Execute('dazuo '..hp.dazuo)
        check_busy(xuncheng_go)
     end)
@@ -176,16 +176,17 @@ function xuncheng_task_wait()
        return check_busy(xuncheng_task_goon)
       end
     else
-       Execute('e;dazuo '..hp.dazuo)
-       return check_busy(xuncheng_task_goon)
+	   Execute('e;dazuo '..hp.dazuo)
+	   return check_busy(xuncheng_task_goon)
     end
 end
 function xuncheng_task_goon()
     DeleteTemporaryTriggers()
-wait.make(function()
+    wait.make(function()
        wait.time(1)
-    Execute('w')
-    check_busy(xuncheng_task)
+	   exe('#3 (read medicine book)')
+       Execute('w')
+       check_busy(xuncheng_task)
     end)    
 
 end
@@ -195,9 +196,10 @@ function xuncheng_check()
     check_bei(xuncheng_checkpot)
 end
 function xuncheng_checkpot()
+	
     if hp.pot>=hp.pot_max*6/7 then
        if hp.jingli>100 then
-        if score.gold and skills["literate"] and score.gold>300 and skills["literate"].lvl<hp.pot_max-100 then
+        if score.gold and skills["literate"] and score.gold>1000 and skills["literate"].lvl<hp.pot_max-100 then
          return literate()
         end
           return go(check_xuexi,"´óÀí³Ç","²è¹Ý")
@@ -331,11 +333,13 @@ end
 function fullSkillCheck()
     flag.idle = 0
     messageShow(tmp.xskill)
-    lianxi(5,tmp.xskill)
+    lianxi(10,tmp.xskill)
+	exe('over lianxi')
     if (tmp.pskill and tmp.oskill==nil) or (tmp.oskill and tmp.pskill and tmp.oskill~=tmp.pskill) then 
 	   tmp.oskill=tmp.pskill
        tmp.skillpot=nil
-       tmp.i = 0	   
+       tmp.i = 0	  
+       exe('tmp.i = 0')	   
 	end
 	if tmp.oskill and tmp.pskill and tmp.oskill==tmp.pskill and skills[tmp.pskill] then
 	   if tmp.skillpot==nil then 
@@ -343,6 +347,7 @@ function fullSkillCheck()
        end
        if tmp.skillpot==skills[tmp.pskill].pot then
 	      tmp.i = tmp.i + 1
+		  exe('tmp.i = '..tmp.i)	  
 		  if tmp.i>100 then
 		     skills[tmp.pskill].fullever=true
 		     return check_heal()
@@ -350,6 +355,7 @@ function fullSkillCheck()
        end 		  
 	end
     if flag.lianxi==1 then 
+	   exe('flag.lianxi==1')	  
        if tmp.xskill and tmp.pskill then
           messageShow(tmp.xskill..' '..tmp.pskill)
        end
@@ -360,6 +366,7 @@ function fullSkillCheck()
 	end
     end
 	if hp.neili<hp.neili_max/2 then
+	   exe(' hp.neili < max/2')	
 	   return fullSkillStart()
 	end
 	if hp.neili==hp.neili_max*2 then

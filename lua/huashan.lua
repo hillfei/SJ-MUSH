@@ -274,14 +274,11 @@ huashan_fight=function(n,l,w)
     exe('unset no_kill_ap;yield no')
     exe('follow '..job.id)
 	job.killer[job.target]=job.id
-    
-	if score.party=="Ã“ª®µ∫" then
-		exe('pfmmiao')
-	else 
-		exe('pfmwu')
-	end
+
+	exe('pfmwu')
 	exe('set wimpy 100;set wimpycmd pfmpfm\\hp')
 	exe('kill '..job.id)
+	
 	--kezhiwugong(job.target,job.id,'pfmpfm')
 	dis_all()
     kezhiwugong()

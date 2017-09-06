@@ -434,11 +434,7 @@ function songxin_kill_1(n,l,w)
     sxjob.id1=string.lower(w[1])
 	job.killer[sxjob.killer1]=sxjob.id1
     exe('kill '..sxjob.id1)
-	if score.party=="桃花岛" then
-		exe("pfmmiao")
-	else 
-		exe("pfmgang")
-	end
+	exe("pfmwu")
 	kezhiwugongAddTarget(sxjob.killer1,sxjob.id1)
 	--killPfm(sxjob.id1)
 end
@@ -479,7 +475,7 @@ function songxin_kill_die(n,l,w)
     if w[1]==sxjob.killer2 then
        sxkiller2=1
        --messageShow('送信任务：搞定偷信杀手2：'..sxjob.killer2)
-	kezhiwugongRemoveTarget(w[2])
+	kezhiwugongRemoveTarget(w[1])
 	   kezhiwugongkill(1)
 	   --return songxinWaitKill1()
 	   wait.make(function() 

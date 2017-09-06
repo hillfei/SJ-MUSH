@@ -20,6 +20,7 @@ require "songmoya"
 require "tdh"
 require "songxin"
 require "hqgzc"
+require "trade"
 require "kezhiwugong"
 
 -- 创建一个普通别名
@@ -189,7 +190,7 @@ smyall=2
 lostno=10
 vippoison=0
 ptbxvip=1
-kdummy=1
+kdummy=0
 mydummy=false
 double_kill=nil
 ypt_lianskills=0
@@ -197,7 +198,7 @@ scorexy=false
 LLlost=0
 needvpearl=0
 doubleexp=0
-dohs2=0
+dohs2=1
 hsjob2=0
 dzxy_level=0
 need_dzxy='yes'
@@ -1892,11 +1893,6 @@ end
 function checkJob()
    --if hp.exp>2000000 then job.zuhe["zhuoshe"]=nil end
    --if hp.shen>0 or hp.exp>6000000 then job.zuhe["songshan"]=nil end
-   if job.zuhe["songxin2"] then
-      job.zuhe["songxin2"]=nil
-	  job.zuhe["songxin"]=true
-	  flag.sx2=true
-   end
    if job.last and job.zuhe[job.last] then
       if type(job.zuhe[job.last]) == "number" then
 	      job.zuhe[job.last] = job.zuhe[job.last] + 1
@@ -2046,7 +2042,6 @@ function lianxi(times,xskill)
     if times~=nil then
        lianxi_times=times
     end
-	messageShow('lian xi start')
     tmp.xskill = xskill
     if perform.force then
 	   if not skills[perform.force] then
@@ -2081,16 +2076,11 @@ function lianxi(times,xskill)
     if flag.lianxi==1 then
        for p in pairs(skills) do
            q=skillEnable[p]
-		   if not skills[p].full then 
-		       messageShow ('p=' .. p ..' full is nil')
-		   else 
-		    messageShow('p=' .. p ..' q=' .. q .. ' skills[p].full=' .. skills[p].full)
-		   end
 	       if (not tmp.xskill or tmp.xskill==p) and q=="dodge" and skills[p].full==0 then
 	          exe('bei none;jifa '..q..' '..p)
               exe('lian '..q..' '..lianxi_times)
               flag.lianxi=0
-			  tmp.pskill=pnot
+			  tmp.pskill=p
 	          break
 	       end
        end
@@ -3244,13 +3234,15 @@ function check_food()
     end
     --if job.zuhe["wudang"] then wait_kill='yes' end
    exe('nick 去武当吃喝;remove all;wear all')
-exe('hp;unset no_kill_ap;yield no')
+   exe('hp;unset no_kill_ap;yield no')
    if hp.food<80 or hp.water<80 then
       return go(wudang_eat,'武当山','茶亭')
    else
       check_bei(check_food_over)
    end
 end
+
+
 function wudang_eat()
    if locl.room=="茶亭" then
    flag.food=0
@@ -3261,7 +3253,15 @@ function wudang_eat()
        return go(wudang_eat,'武当山','茶亭')
     end
 end
-
+function get_coin() 
+    if not locl.id["钱缝"] then
+	   return go(get_coin,"扬州城","天阁斋")
+	else
+	   exe('qu 99 coin')
+	   messageShow('qu 99 coin')
+	   return check_heal()
+	end
+end
 function get_thd_fenglu()
     exe('ask lu about 行走江湖')
     SetVariable("last_thd_fenglu",score.age)
@@ -3275,10 +3275,13 @@ function check_food_over()
             fenglu_age=tonumber(GetVariable("last_thd_fenglu"))
         end
         if fenglu_age<score.age then
-            return  go(get_thd_fenglu,'归云庄','前厅')
+            return go(get_thd_fenglu,'归云庄','前厅')
         end
     end
-    if kuang_cur and kuang_cur>2000 then return Ronglian() end
+   if score.party=='昆仑派' and ((not Bag['铜钱']) or Bag['铜钱'].cnt<30) then
+	  return go(get_coin,"扬州城","天阁斋")
+   end
+   if kuang_cur and kuang_cur>2000 then return Ronglian() end
       return check_heal()
 end
 
@@ -4134,6 +4137,13 @@ function jobSet()
       DeleteVariable("jobthird")
    end
 
+	if job.zuhe["songxin2"] then
+		job.zuhe["songxin2"]=nil
+		job.zuhe["songxin"]=true
+		flag.sx2=true
+   else 
+		flag.sx2=false
+   end
    if job.zuhe["songmoya"] then
       l_result=utils.inputbox ("设置一品堂任务杀到第几组?(默认为7组)使用默认组数请空白不要填写。", "ypttab", GetVariable("ypttab"), "宋体" , "12")
       if not isNil(l_result) then
@@ -4339,7 +4349,7 @@ function drugGetVar()
     end
 end
 function setAlias()
-	create_alias_s('llgo','llgo','llgo')
+    create_alias_s('llgo','llgo','llgo')
     create_alias_s('stop','stop','disAll')
 	create_alias_s('iset','iset','shujian_set')        
 	create_alias_s('start','start','main')
@@ -4371,9 +4381,11 @@ function setAlias()
 	create_alias('full','^full(.*)$','fullSkill("%1")')
 	SetAliasOption ('full','send_to','12')
 end
+
 llgo=function()
 		return goto(lostletter_locate)
 end
+
 function setdzxy()
       l_result=utils.msgbox ( "慕容斗转星移学习设置(默认为：Yes)？", "dzxy", "yesno", "?", 1 )
    if l_result and l_result=="yes" then

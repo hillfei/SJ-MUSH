@@ -343,9 +343,19 @@ function kezhiwugongsuccess(miaoshu,kezhi_cmd,k_order)
 	end
 	print("kezhisuccess="..kezhisuccess.."|npc_num="..npc_num)
 	if kezhisuccess==npc_num then
+		--print('npcdie='..	table.concat(npcdienum, ", "))
 		local tflag=1
+		for i=1,npc_num do
+			if not npcdienum[npc_name[i]] then
+			    print("npc="..i.."|name="..npc_name[i].."|npcdie=false|tflag="..i)
+				tflag=i
+				break
+			else 
+				 print("npc="..i.."|name="..npc_name[i].."|npcdie=true")
+			end
+		end
 		for i=2,npc_num do
-			if npc_order[i]~=nil and npc_order[i]<npc_order[tflag] then
+			if npc_order[i]~=nil and npc_order[i]<npc_order[tflag] and (not npcdienum[npc_name[i]]) then
 				print(npc_order[i],npc_order[tflag])
 				tflag=i
 			end
@@ -368,7 +378,8 @@ function kezhiwugongAddTarget(t_name,t_id)
 	end
 end
 function kezhiwugongRemoveTarget(t_name)
-	table.insert(npcdienum,t_name)
+	npcdienum[t_name]=1
+	--print('kezhiwugongRemoveTarget '..t_name..' npcdienum[t_name]='..npcdienum[t_name])
 end
 function kezhiwugongStart()
 	npc_num=0
@@ -385,7 +396,7 @@ function kezhiwugongStart()
 	EnableTriggerGroup('afight',true)   
 end
 function kezhiwugongkill(p_num)
-	--print(npcdienum[npc_name[p_num]])
+	--print('kezhiwugongkill npcnum='..p_num..'|npcname='..npc_name[p_num])
 	if kflag[p_num]==2 and not npcdienum[npc_name[p_num]] then
 		exe('set wimpy 100;set wimpycmd pppp'..p_num..'\\hp')
 	else
