@@ -381,8 +381,11 @@ function xueshan_goon()
     EnableTrigger("xueshan_find1",true)
     flag.wait=0
     flag.find=0
+	job.cnt=
+	print(locl.area.."|locl|"..locl.room)
 	if XsBugRoom[locl.area..locl.room] then
-		return _G[XsBugRoom[locl.area..locl.room]]
+		print("run "..XsBugRoom[locl.area..locl.room])
+		return _G[XsBugRoom[locl.area..locl.room]]()
 	else
 		return walk_wait()
 	end
