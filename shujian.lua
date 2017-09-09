@@ -1756,7 +1756,7 @@ function sLetterlost()
     create_trigger_t('lostletter5',"^(> )*你在信卦上写上收信人的名字。$",'','lookXin')
     create_trigger_t('lostletter6',"^(> )*你再看清楚一点。$",'','letterLostBegin')
     create_trigger_t('lostletter7',"^(> )*信封上写着：(\\D*)\\((\\D*)\\)",'','lostName')
-	  create_trigger_t('lostletter8',"^[> ]*好象收信人曾在(\\D*)一带出现。$",'','get_lost_locate')
+	create_trigger_t('lostletter8',"^[> ]*好象收信人曾在(\\D*)一带出现。$",'','get_lost_locate')
     SetTriggerOption("lostletter1","group","lostletter")
     SetTriggerOption("lostletter2","group","lostletter")
     SetTriggerOption("lostletter3","group","lostletter")
@@ -4383,7 +4383,20 @@ function setAlias()
 end
 
 llgo=function()
-		return goto(lostletter_locate)
+    print('ll cocate:'..lostletter_locate..' ll.area=' ..ll.area..' ll.room=' ..ll.room)
+	if string.find(lostletter_locate,'神龙岛') then
+		return goto('黄河入海口')
+	elseif string.find(lostletter_locate,'长江南岸') or string.find(lostletter_locate,'姑苏慕容') or string.find(lostletter_locate,'燕子坞') or string.find(lostletter_locate,'曼佗罗山庄') then
+		return goto('扬州城长江北岸')		
+	elseif string.find(lostletter_locate,'紫杉林') then 
+		return goto('兰州大渡口')
+	elseif string.find(lostletter_locate,'桃源县') then 
+		return goto('桃源县茅屋')
+	elseif string.find(lostletter_locate,'绝情谷') then 
+		return goto('绝情谷小溪边')
+	else
+	    return go(lookXin,ll.area,ll.room)
+	end
 end
 
 function setdzxy()

@@ -695,13 +695,12 @@ get_lost_locate=function(n,l,w)
 	lostletter_locate=Trim(w[1])
 	lostletter_locate=addrTrim(lostletter_locate)    
     ll.room,ll.area=getAddr(lostletter_locate)
-	
 	--立即刷新地点
 	WindowRectOp (win3, miniwin.rect_fill, 0,0,300,20,ColourNameToRGB("black"))  -- raised, filled, softer, flat 0x909090
 	WindowFont (win3, "f", "新宋体", 10, true, false, false, false)
 	WindowText (win3, "f", "失落的信笺地点："..lostletter_locate,0,0,300,20,ColourNameToRGB ("gold"), false) -- not Unicode
 	WindowShow (win3,  true)  -- show it
-	
+	llgo()
 end
 function goll()
 	if not getAddr(lostletter_locate) then 

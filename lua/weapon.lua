@@ -212,6 +212,7 @@ weapon_unwield=function()
         exe('unwield ansha bishou')
         exe('unwield hammer')
         exe('unwield qin')
+		exe('unwield mu jian')
 	exe('unwield dart')
  
 	checkWield()
