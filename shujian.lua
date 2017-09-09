@@ -4395,7 +4395,14 @@ llgo=function()
 	elseif string.find(lostletter_locate,'¾øÇé¹È') then 
 		return goto('¾øÇé¹ÈÐ¡Ïª±ß')
 	else
-	    return go(lookXin,ll.area,ll.room)
+		if not ll.area or not ll.room then 
+		      wait.make(function() 
+				wait.time(1)
+				exe('look letter')
+              end)
+	    else 
+			return go(lookXin,ll.area,ll.room)
+		end
 	end
 end
 
