@@ -4383,7 +4383,7 @@ function setAlias()
 end
 
 llgo=function()
-    print('ll cocate:'..lostletter_locate..' ll.area=' ..ll.area..' ll.room=' ..ll.room)
+    print('ll locate:'..lostletter_locate)
 	if string.find(lostletter_locate,'神龙岛') then
 		return goto('黄河入海口')
 	elseif string.find(lostletter_locate,'长江南岸') or string.find(lostletter_locate,'姑苏慕容') or string.find(lostletter_locate,'燕子坞') or string.find(lostletter_locate,'曼佗罗山庄') then
