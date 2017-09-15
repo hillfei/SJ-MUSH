@@ -573,6 +573,10 @@ end
     messageShow('送信任务2：任务目标是【'..job.where..'】的【'..job.target..'】，杀手等级为【'..job.level..'】，开始去送信！')
     return songxin2_sendto()
     end
+	if score.party and score.party=='桃花岛'and dest.area=='桃花岛' then
+    messageShow('送信任务2：任务目标是【'..job.where..'】的【'..job.target..'】，杀手等级为【'..job.level..'】，开始去送信！')
+    return songxin2_sendto()
+    end
     if AddrIgnores[dest.area] then
        messageShow('送信任务2：任务地点【'..job.where..'】路太远了，任务拒绝。','blue')
        return go(songxin_fangqi,'大理城','驿站')
@@ -674,6 +678,10 @@ function songxin2_consider()
     return songxin2_wait()
     end
     if score.party and score.party=='神龙教'and dest.area=='神龙岛' then
+    messageShow('送信任务2：任务目标是【'..job.where..'】的【'..job.target..'】，杀手等级为【'..job.level..'】，原地等待Killer！')
+    return songxin2_wait()
+    end
+	if score.party and score.party=='桃花岛'and dest.area=='桃花岛' then
     messageShow('送信任务2：任务目标是【'..job.where..'】的【'..job.target..'】，杀手等级为【'..job.level..'】，原地等待Killer！')
     return songxin2_wait()
     end

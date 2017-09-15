@@ -2458,16 +2458,16 @@ function idle_set()
       flag.idle = 0
    end
    flag.idle = flag.idle + 1
-   if flag.idle<14 then
+   if flag.idle<8 then
       return
    end
-   if flag.idle<16 then
+   if flag.idle<10 then
       chats_log("ROBOT 可能已发呆".. flag.idle/2 .."分钟!","deepskyblue")
 	  return
    end
    scrLog()
    dis_all()
-   chats_locate('定位系统：发呆8分钟后，于【'.. locl.area .. locl.room ..'】重新启动系统！','red')
+   chats_locate('定位系统：发呆5分钟后，于【'.. locl.area .. locl.room ..'】重新启动系统！','red')
    Disconnect()
    Connect()
 end

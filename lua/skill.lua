@@ -626,7 +626,7 @@ function fpk(n,l,w)
    exe('set wimpy 100;yield no')
    exe('set wimpycmd pkpfm\\hp')
    
-  logfile = GetInfo(57) .. "log/pk_fpk_"..score.id.." VS " .. pker.id .. "_" .. os.time() .. ".txt"
+  logfile = GetInfo(67) .. "log/pk_fpk_"..score.id.." VS " .. pker.id .. "_" .. os.time() .. ".txt"
    OpenLog (logfile , false)
 	 print("开始记录log到",logfile )
    locate()
