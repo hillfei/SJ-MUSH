@@ -317,7 +317,10 @@ huashan_cut_act=function()
     DeleteTimer('perform')
     weapon_unwield()
     weaponWieldCut()
-    for i=1,5 do
+	check_halt(huashan_cut2)
+end
+huashan_cut2=function()
+    for i=1,4 do
        exe('halt;get ling pai from corpse '..i)
        exe('qie corpse '..i)
     end
