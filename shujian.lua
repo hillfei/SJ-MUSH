@@ -1617,8 +1617,8 @@ function wuxingzhenFinish()
 end
 
 function checkPrepare()
-      EnableTriggerGroup("poison",false)
-      DeleteTriggerGroup("poison")
+    EnableTriggerGroup("poison",false)
+    DeleteTriggerGroup("poison")
     drugPrepare = drugPrepare or {}
    
     if hp.exp<150000 then
@@ -1687,8 +1687,8 @@ function checkPrepare()
 		if weaponFunc[p] and not Bag[p] then
 		   return _G[weaponFuncName[p]]()
 		end
-	    if  weaponPrepare["飞镖"] and Bag["枚飞镖"].cnt<100 then
-		   return checkWeapon("飞镖")
+	    if  weaponPrepare["石子"] and Bag["颗石子"].cnt<100 then
+		   return checkWeapon("石子")
 		end
 	end
 	local l_cut = false
@@ -2563,7 +2563,7 @@ function checkBags(func)
    create_trigger_t('bags4','^(> )*(\\D*)(锭|两|张|文)(白银|黄金|壹仟两银票|铜钱)\\(','','checkBagsMoney')
    create_trigger_t('bags5','^(> )*你把 "action" 设定为 "检查包裹" 成功完成。$','','checkBagsOver')
    create_trigger_t('bags6','^(> )*(\\D*)封失落的信笺','','checkBagsletter')
-   create_trigger_t('bags7','^(> )*(\\D*)枚飞镖\\(','','checkBagsDart')
+   create_trigger_t('bags7','^(> )*(\\D*)颗石子\\(','','checkBagsDart')
    create_trigger_t('bags8','^(> )*你身上带着(\\D*)件东西\\(负重\\s*(\\d*)\\.\\d*\\%\\)：','','checkBagsW')
    SetTriggerOption("bags1","group","bags")
    SetTriggerOption("bags2","group","bags")
@@ -2590,9 +2590,9 @@ function checkBags(func)
    Bag["铜钱"]={}
    Bag["铜钱"].id={}
    Bag["铜钱"].cnt=0
-   Bag["枚飞镖"]={}
-   Bag["枚飞镖"].id={}
-   Bag["枚飞镖"].cnt=0
+   Bag["颗石子"]={}
+   Bag["颗石子"].id={}
+   Bag["颗石子"].cnt=0
    tmp.bags=func
    weaponUsave={}
    exe('id')
@@ -2711,7 +2711,7 @@ function checkBagsW(n,l,w)
 end
 function checkBagsDart(n,l,w)
    local l_cnt=trans(Trim(w[2]))
-   local l_name='枚飞镖'
+   local l_name='颗石子'
    if Bag[l_name] then
       Bag[l_name].cnt = l_cnt
    end
@@ -3175,25 +3175,31 @@ end
 function poisonLianxi()
     exe('sxlian')
     wait.make(function() 
-       wait.time(2)
-   return check_busy(preparePoison)
+		wait.time(2)
+		return check_busy(preparePoison)
     end)
 end
 
 function Ronglian()
     dis_all()
     job.name="refine"
-  return go(Brefine,'扬州城','兵器铺')
+    return go(Brefine,'扬州城','兵器铺')
 end
 function Brefine()
+	kuangshi="tiekuang shi"
     DeleteTriggerGroup("refine")
-    create_trigger_t('refine1',"^(> )*你没有足够的铁矿石。",'','refineOK')
+    create_trigger_t('refine1',"^(> )*你没有足够的铁矿石。",'','refineGold')
+	create_trigger_t('refine2',"^(> )*你没有足够的金矿石。",'','refineOK')
     SetTriggerOption("refine1","group","refine")
+	SetTriggerOption("refine2","group","refine")
     EnableTriggerGroup("refine",true)
-   create_timer_s('refine',2,'refine')
+    create_timer_s('refine',2,'refine')
 end
 function refine()
-   exe('refine tiekuang shi')
+   exe('refine '..kuangshi')
+end
+function refineOK()
+   kuangshi="jinkuang shi"
 end
 function refineOK()
    DeleteTriggerGroup("refine")

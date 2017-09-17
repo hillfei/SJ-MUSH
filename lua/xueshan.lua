@@ -642,7 +642,7 @@ function xueshan_judge()
     end
     if job.party and job.party=='古墓派' and job.weapon=='whip' then
        messageShow('雪山任务：遇到古墓派，装备武器：长鞭。武功：银索金铃。使用正属性PFM！')
-	   exe('pfmsanwu')
+	   exe('pfmzhen')
        elseif job.party and job.party=='古墓派' then
        messageShow('雪山任务：遇到古墓派，武功：黯然销魂掌。使用刚属性PFM！')
        exe('pfmgang')

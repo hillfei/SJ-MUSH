@@ -17,6 +17,7 @@ weaponStore={
 ["匕首"] = "zhiye/bingqipu1",
 ["单钩"] = "zhiye/bingqipu1",
 ["飞镖"] = "zhiye/bingqipu1",
+["石子"] = "zhiye/bingqipu1",
 ["梅花针"] = "zhiye/bingqipu1",
 ["手裏剑"] = "zhiye/bingqipu1",
 }
@@ -36,6 +37,7 @@ weaponStoreId={
 ["匕首"] = "bishou",
 ["单钩"] = "hook",
 ["飞镖"] = "dart",
+["石子"] = "shizi",
 ["梅花针"] = "meihua zhen",
 ["手裏剑"] = "shuriken",
 }
