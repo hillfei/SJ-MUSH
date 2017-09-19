@@ -2498,7 +2498,7 @@ function checkbeinang(n,l,w)
 end
 function checkYaoBags(func)
    DeleteTriggerGroup("Yaobags")
-   create_trigger_t('Yaobags1','^(> )*(\\D*)(锭|两|张|文)(白银|黄金|壹仟两银票|铜钱)\\(','','checkBagsMoney')
+   create_trigger_t('Yaobags1','^(> )*(\\D*)(锭|两|张)(白银|黄金|壹仟两银票)\\(','','checkBagsMoney')
    create_trigger_t('Yaobags2','^(> )*你把 "action" 设定为 "检查药品" 成功完成。$','','checkYaoBagsOver')
    create_trigger_t('Yaobags3','^(> )*(\\D*)封失落的信笺','','checkBagsletter')
    SetTriggerOption("Yaobags1","group","Yaobags")
@@ -2511,7 +2511,6 @@ function checkYaoBags(func)
    --print(cty_cur,nxw_cur,hxd_cur)
    Bag["黄金"].cnt=0
    Bag["白银"].cnt=0
-   Bag["铜钱"].cnt=0
    tmp.yaobags=func
    exe('i;look bei nang')
    exe('alias action 检查药品')
@@ -2560,7 +2559,7 @@ function checkBags(func)
    create_trigger_t('bags1',"^(> )*你身上携带物品的别称如下",'','checkBagsStart')
    create_trigger_t('bags2',"^\\d*:(\\D*) = (\\D*)$",'','checkBagsId')
    create_trigger_t('bags3','^(> )*你目前已经拥有了(\\D*)件私有装备：(\\D*)。$','','checkBagsU')
-   create_trigger_t('bags4','^(> )*(\\D*)(锭|两|张|文)(白银|黄金|壹仟两银票|铜钱)\\(','','checkBagsMoney')
+   create_trigger_t('bags4','^(> )*(\\D*)(锭|两|张)(白银|黄金|壹仟两银票)\\(','','checkBagsMoney')
    create_trigger_t('bags5','^(> )*你把 "action" 设定为 "检查包裹" 成功完成。$','','checkBagsOver')
    create_trigger_t('bags6','^(> )*(\\D*)封失落的信笺','','checkBagsletter')
    create_trigger_t('bags7','^(> )*(\\D*)颗石子\\(','','checkBagsDart')
@@ -2587,9 +2586,6 @@ function checkBags(func)
    Bag["白银"]={}
    Bag["白银"].id={}
    Bag["白银"].cnt=0
-   Bag["铜钱"]={}
-   Bag["铜钱"].id={}
-   Bag["铜钱"].cnt=0
    Bag["颗石子"]={}
    Bag["颗石子"].id={}
    Bag["颗石子"].cnt=0
@@ -3196,7 +3192,7 @@ function Brefine()
     create_timer_s('refine',2,'refine')
 end
 function refine()
-   exe('refine '..kuangshi')
+   exe('refine '..kuangshi)
 end
 function refineOK()
    kuangshi="jinkuang shi"
@@ -3259,15 +3255,15 @@ function wudang_eat()
        return go(wudang_eat,'武当山','茶亭')
     end
 end
-function get_coin() 
-    if not locl.id["钱缝"] then
-	   return go(get_coin,"扬州城","天阁斋")
-	else
-	   exe('qu 99 coin')
-	   messageShow('qu 99 coin')
-	   return check_heal()
-	end
-end
+--function get_coin() 
+--    if not locl.id["钱缝"] then
+--	   return go(get_coin,"扬州城","天阁斋")
+--	else
+--	   exe('qu 99 coin')
+--	   messageShow('qu 99 coin')
+--	   return check_heal()
+--	end
+--end
 function get_thd_fenglu()
     exe('ask lu about 行走江湖')
     SetVariable("last_thd_fenglu",score.age)
@@ -3284,9 +3280,9 @@ function check_food_over()
             return go(get_thd_fenglu,'归云庄','前厅')
         end
     end
-   if score.party=='昆仑派' and ((not Bag['铜钱']) or Bag['铜钱'].cnt<30) then
-	  return go(get_coin,"扬州城","天阁斋")
-   end
+--   if score.party=='昆仑派' and ((not Bag['铜钱']) or Bag['铜钱'].cnt<30) then
+--	  return go(get_coin,"扬州城","天阁斋")
+--   end
    if kuang_cur and kuang_cur>2000 then return Ronglian() end
       return check_heal()
 end
