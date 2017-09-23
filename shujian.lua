@@ -3194,7 +3194,7 @@ end
 function refine()
    exe('refine '..kuangshi)
 end
-function refineOK()
+function refineGold()
    kuangshi="jinkuang shi"
 end
 function refineOK()
