@@ -168,7 +168,7 @@ WdjIgnores = {
 AddrIgnores = {
 	["燕子坞"] = true,
 	["姑苏慕容"] = true,
-    ["桃花岛"] = true,
+    --["桃花岛"] = true,
 	--["神龙岛"] = true,
 	["曼佗罗山庄"] = true,
 	--["黑木崖"] = true,
@@ -239,7 +239,6 @@ skillsjineng4 = {
 	["烈焰刀"] = true,
 	["如影随形腿"] = true,
 	["旋风扫叶腿"] = true,
-	["段家剑法"] = true,
 	["柳叶刀法"] = true,
 	["天山追魂钩"] = true,
 	["嵩山剑法"] = true,
@@ -290,6 +289,7 @@ skillsjineng8 = {
 	["大嵩阳手"] = true,
 	["千蛛万毒手"] = true,
 	["打狗棒法"] = true,
+	["段家剑法"] = true,
 }
 
 skillsjineng9 = {

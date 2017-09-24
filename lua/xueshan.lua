@@ -686,8 +686,8 @@ function xueshan_judge()
 	   exe('pfmzhen')
     end
     if job.party and job.party=='天南大理' and job.weapon=='sword' then
-       messageShow('雪山任务：遇到天南大理。装备武器：长剑。武功：段家剑法。使用柔属性PFM！')
-	   exe('pfmrou')
+       messageShow('雪山任务：遇到天南大理。装备武器：长剑。武功：段家剑法。使用险属性PFM！')
+	   exe('pfmxian')
       elseif job.party and job.party=='大理天龙寺' then
        messageShow('雪山任务：遇到大理天龙寺。武功：一阳指。使用妙属性PFM！')
 	   exe('pfmmiao')

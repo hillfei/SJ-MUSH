@@ -1,181 +1,228 @@
---wudang
-function wudangTrigger()
-    DeleteTriggerGroup("wudangAsk")
-    create_trigger_t('wudangAsk1',"^(> )*你向宋远桥打听有关",'','wudangAsk')
-    create_trigger_t('wudangAsk2',"^(> )*这里没有这个人。$",'','wudangNobody')
-    SetTriggerOption("wudangAsk1","group","wudangAsk")
-    SetTriggerOption("wudangAsk2","group","wudangAsk")
-    EnableTriggerGroup("wudangAsk",false)
-    DeleteTriggerGroup("wudangAccept")
-    create_trigger_t('wudangAccept1',"^(> )*宋远桥在你的耳边悄声说道：据说(江南|江北|西南|中原|西北|河南|河北|东北)(草寇|寨主|恶霸|山贼|土匪|飞贼|盗贼)(\\D*)正在(\\D*)捣乱",'','wudangConsider')
-    create_trigger_t('wudangAccept2',"^(> )*宋远桥说道：「我不是告诉你了吗，有人在",'','wudangFangqi')
-    create_trigger_t('wudangAccept3',"^(> )*宋远桥在你的耳边悄声说道(\\D*)尤为擅长(\\D*)的功夫。",'','wudangNpc')
-    create_trigger_t('wudangAccept4',"^(> )*宋远桥说道：「你正忙着别的事情呢",'','wudangFail')
-    create_trigger_t('wudangAccept5',"^(> )*宋远桥说道：「你刚做完(武当锄奸|惩恶扬善|大理送信|抗敌颂摩崖)任务",'','wudangFail')
-    create_trigger_t('wudangAccept6',"^(> )*宋远桥说道：「现在暂时没有适合你的工作",'','wudangFail')
-    create_trigger_t('wudangAccept7',"^(> )*宋远桥说道：「暂时没有任务需要做，你过一会儿再来吧",'','wudangFail')
-    create_trigger_t('wudangAccept8',"^(> )*宋远桥(对你|)说道：(「|)\\D*，(这个任务确实比较难完成|你太让我失望了)",'','wudangFail')
-    create_trigger_t('wudangAccept9',"^(> )*宋远桥说道：「\\D*，你又没在我这里领任务，瞎放弃什么呀",'','wudangFail')
-    create_trigger_t('wudangAccept10',"^(> )*宋远桥说道：「\\D*，这个任务确实比较难完成，下次给你简单的，先退下吧！",'','wudangFail')
-    create_trigger_t('wudangAccepta',"^(> )*宋远桥在你的耳边悄声说道：此人的武功(\\D*)，",'','wudanglevel')
-    create_trigger_t('wudangAcceptb',"^(> )*宋远桥\\D*你快去快回，一切小心啊。",'','wudangFindGo')
-    SetTriggerOption("wudangAccept1","group","wudangAccept")
-    SetTriggerOption("wudangAccept2","group","wudangAccept")
-    SetTriggerOption("wudangAccept3","group","wudangAccept")
-    SetTriggerOption("wudangAccept4","group","wudangAccept")
-    SetTriggerOption("wudangAccept5","group","wudangAccept")
-    SetTriggerOption("wudangAccept6","group","wudangAccept")
-    SetTriggerOption("wudangAccept7","group","wudangAccept")
-    SetTriggerOption("wudangAccept8","group","wudangAccept")
-    SetTriggerOption("wudangAccept9","group","wudangAccept")
-    SetTriggerOption("wudangAccept10","group","wudangAccept")
-    SetTriggerOption("wudangAccepta","group","wudangAccept")
-    SetTriggerOption("wudangAcceptb","group","wudangAccept")
-    EnableTriggerGroup("wudangAccept",false)
-    DeleteTriggerGroup("wudangFight")
-    create_trigger_t('wudangFight1','^(> )*(\\D*)「啪」的一声倒在地上','','wudangBack')
-    create_trigger_t('wudangFight2','^(> )*(\\D*)大喊一声：不好！！转身几个起落就不见了','','wudangBack')
-    create_trigger_t('wudangFight3',"^(> )*这里没有(\\D*)。",'','wudangLost')
-    create_trigger_t('wudangFight4',"^(> )*(\\D*)对着你发出一阵阴笑，说道",'','wudangKillAct')
-	create_trigger_t('wudangFight5',"^(> )*(\\D*)大喊一声：老子不奉陪了！转身几个起落就不见了",'','wudangBack')
-    create_trigger_t('wudangFight6','^>*\\s*一股暖流发自丹田流向全身，慢慢地你又恢复了知觉……','','wudangFangqiGo')
-    create_trigger_t('wudangFight7',"^(他|她)装备着：$",'','npcWeapon')
-    SetTriggerOption("wudangFight1","group","wudangFight")
-    SetTriggerOption("wudangFight2","group","wudangFight")
-    SetTriggerOption("wudangFight3","group","wudangFight")
-    SetTriggerOption("wudangFight4","group","wudangFight")
-	SetTriggerOption("wudangFight5","group","wudangFight")
-    SetTriggerOption("wudangFight6","group","wudangFight")
-    SetTriggerOption("wudangFight7","group","wudangFight")
-    EnableTriggerGroup("wudangFight",false)
-    DeleteTriggerGroup("wudangFinish")
-    create_trigger_t('wudangFinish1','^(> )*宋远桥对着你竖起了右手大拇指，好样的。','','wudangFinishT')
-    create_trigger_t('wudangFinish2',"^(> )*宋远桥被你气得昏了过去。",'','wudangFinish')
-    create_trigger_t('wudangFinish3',"^(> )*宋远桥说道：「"..score.name.."你怎么搞的",'','wudangFinish')
-    SetTriggerOption("wudangFinish1","group","wudangFinish")
-    SetTriggerOption("wudangFinish2","group","wudangFinish")
-    SetTriggerOption("wudangFinish3","group","wudangFinish")
-    EnableTriggerGroup("wudangFinish",false)
-    DeleteTriggerGroup("wudangdebug")
-    create_trigger_t('wudangdebug1','^(> )*看来该找机会逃跑了','','wudangdebugFind')
-    SetTriggerOption("wudangdebug1","group","wudangdebug")
-    EnableTriggerGroup("wudangdebug",true)
+--shoumu
+------桃花岛守墓
+
+ask huang about 守墓
+你向黄蓉打听有关『守墓』的消息。
+黄蓉说道：「难得你有这份心意，但是我母亲的墓不是随便就能进去的。」
+黄蓉想了想，说道: 这样吧,我带你去!
+你紧跟着黄蓉，左一转，右一转，不一会就到了墓前。
+wield xiao
+石坟 - east、north、south、west
+黄蓉在你耳边悄悄说道: 你要好好守墓。如果有什么人进到墓里，你不要对他客气!
+> 你正忙着呢。
+> 黄蓉说完，就赶忙的离开了。
+突然，从北边的桃花阵中闯出一个盗墓贼，钻进石坟就不见了。
+
+
+^??黄蓉说道：「已经有人去守墓了
+^??黄蓉说道：「对不起，现在这里没有
+^??黄蓉说道：「*休息一会吧。」 busy
+^??黄蓉疑惑的看着你,说道: 现在大白天的，守什么墓呀? busy
+^??你紧跟着黄蓉，左一转，右一转，不一会就到了墓前。
+bbb {ask rong about 师母;bbb {ask rong about 守墓}}
+timenn=%time("nn");
+timess=%time("ss");
+#t- sm_ask;
+#t+ sm_enter;
+wield xiao
+
+^??突然，从%x桃花阵中闯出一个盗墓贼
+#4 {kneel mubei};
+bbb {#3 {push mubei left};
+bbb {#3 {push mubei right};
+bbb {d;
+time}}}
+
+^??现在是*年*月*日{辰|戌}时{二刻|三刻}。
+u;u;d;s;d;s;d;su;d;kick daomu zei
+^??现在是*年*月*日{辰|戌}时{正|一刻}
+u;u;d;su;d;su;d;se;d;kick daomu zei
+^??现在是*年*月*日{丑|未}时{二刻|三刻}
+u;u;d;n;d;n;d;nu;d;kick daomu zei
+^??现在是*年*月*日{丑|未}时{正|一刻}。
+u;u;d;nu;d;nu;d;nw;d;kick daomu zei
+^??现在是*年*月*日{卯|酉}时{二刻|三刻}
+u;u;d;se;d;se;d;e;d;kick daomu zei
+^??现在是*年*月*日{卯|酉}时{正|一刻}
+u;u;d;e;d;e;d;ne;d;kick daomu zei
+^??现在是*年*月*日{巳|亥}时{二刻|三刻}
+u;u;d;sw;d;sw;d;sd;d;kick daomu zei
+^??现在是*年*月*日{巳|亥}时{正|一刻}
+u;u;d;sd;d;sd;d;s;d;kick daomu zei
+^??现在是*年*月*日{寅|申}时{二刻|三刻}。
+u;u;d;ne;d;ne;d;nd;d;kick daomu zei
+^??现在是*年*月*日{寅|申}时{正|一刻}。
+u;u;d;nd;d;nd;d;n;d;kick daomu zei
+^??现在是*年*月*日{子|午}时{二刻|三刻}
+u;u;d;nw;d;nw;d;w;d;kick daomu zei
+^??现在是*年*月*日{子|午}时{正|一刻}
+u;u;d;w;d;w;d;sw;d;kick daomu zei
+^??盗墓贼「啪」的一声倒在地上
+bbb {#t- sm_fight;
+get all from corpse;
+drop cloth;
+get zhuanji;
+#t+ sm_out;
+u}
+
+^??盗墓贼急急忙忙离开了。
+bbb {#t- sm_fight;
+#t+ sm_out;
+u};
+log %e[1m%e[14m桃花岛任务：失败
+
+^??看起来盗墓贼想杀死你！
+kill zei
+
+give rong all;
+function shoumuTrigger()
+    DeleteTriggerGroup("shoumuAsk")
+    create_trigger_t('shoumuAsk1',"^(> )*你向黄蓉打听有关",'','shoumuAsk')
+    create_trigger_t('shoumuAsk2',"^(> )*这里没有这个人。$",'','shoumuNobody')
+    SetTriggerOption("shoumuAsk1","group","shoumuAsk")
+    SetTriggerOption("shoumuAsk2","group","shoumuAsk")
+    EnableTriggerGroup("shoumuAsk",false)
+    DeleteTriggerGroup("shoumuAccept")
+    create_trigger_t('shoumuAccept1',"^(> )*黄蓉在你耳边悄悄说道: 你要好好守墓。如果有什么人进到墓里，你不要对他客气!",'','shoumuFind')
+    create_trigger_t('shoumuAccept2',"^(> )*黄蓉说道：「已经有人去守墓",'','shoumuFangqi')
+    create_trigger_t('shoumuAccept3',"^(> )*黄蓉在你的耳边悄声说道(\\D*)尤为擅长(\\D*)的功夫。",'','shoumuNpc')
+    create_trigger_t('shoumuAccept4',"^(> )*黄蓉说道：「你正忙着别的事情呢",'','shoumuFail')
+    create_trigger_t('shoumuAccept5',"^(> )*黄蓉说道：「对不起，现在这里没有",'','shoumuFail')
+    create_trigger_t('shoumuAccept6',"^(> )*黄蓉说道：「现在暂时没有适合你的工作",'','shoumuFail')
+    create_trigger_t('shoumuAccept7',"^(> )*黄蓉说道：「暂时没有任务需要做，你过一会儿再来吧",'','shoumuFail')
+    create_trigger_t('shoumuAccept8',"^(> )*黄蓉(对你|)说道：(「|)\\D*，(这个任务确实比较难完成|你太让我失望了)",'','shoumuFail')
+    create_trigger_t('shoumuAccept9',"^(> )*黄蓉说道：「\\D*，你又没在我这里领任务，瞎放弃什么呀",'','shoumuFail')
+    SetTriggerOption("shoumuAccept1","group","shoumuAccept")
+    SetTriggerOption("shoumuAccept2","group","shoumuAccept")
+    SetTriggerOption("shoumuAccept3","group","shoumuAccept")
+    SetTriggerOption("shoumuAccept4","group","shoumuAccept")
+    SetTriggerOption("shoumuAccept5","group","shoumuAccept")
+    SetTriggerOption("shoumuAccept6","group","shoumuAccept")
+    SetTriggerOption("shoumuAccept7","group","shoumuAccept")
+    SetTriggerOption("shoumuAccept8","group","shoumuAccept")
+    SetTriggerOption("shoumuAccept9","group","shoumuAccept")
+    EnableTriggerGroup("shoumuAccept",false)
+    DeleteTriggerGroup("shoumuFight")
+	create_trigger_t('shoumuFight1','^(> )*盗墓贼「啪」的一声倒在地上','','shoumuBack')
+    create_trigger_t('shoumuFight7',"^(他|她)装备着：$",'','npcWeapon')
+    SetTriggerOption("shoumuFight1","group","shoumuFight")
+    SetTriggerOption("shoumuFight7","group","shoumuFight")
+    EnableTriggerGroup("shoumuFight",false)
+    create_trigger_t('shoumuFight1','^(> )*盗墓贼「啪」的一声倒在地上','','shoumuBack')
+    create_trigger_t('shoumuFight7',"^(他|她)装备着：$",'','npcWeapon')
+    SetTriggerOption("shoumuFight1","group","shoumuFight")
+    SetTriggerOption("shoumuFight7","group","shoumuFight")
+    EnableTriggerGroup("shoumuFight",false)
+    DeleteTriggerGroup("shoumuFinish")
+    create_trigger_t('shoumuFinish1','^(> )*黄蓉欣喜的说道：你干的很出色，这是给你的奖励。','','shoumuFinishT')
+    SetTriggerOption("shoumuFinish1","group","shoumuFinish")
+    EnableTriggerGroup("shoumuFinish",false)
+    DeleteTriggerGroup("shoumudebug")
+    create_trigger_t('shoumudebug1','^(> )*看来该找机会逃跑了','','shoumudebugFind')
+    SetTriggerOption("shoumudebug1","group","shoumudebug")
+    EnableTriggerGroup("shoumudebug",true)
 end
 jobFindAgain = jobFindAgain or {}
-jobFindAgain["wudang"] = "wudangFindAgain"
+jobFindAgain["shoumu"] = "shoumuFindAgain"
 jobFindFail = jobFindFail or {}
-jobFindFail["wudang"] = "wudangFindFail"
-function wudangFindAgain()
-    return go(wudangFindAct,dest.area,dest.room)
+jobFindFail["shoumu"] = "shoumuFindFail"
+function shoumuFindAgain()
+    return go(shoumuFindAct,dest.area,dest.room)
 end
-function wudangFindFail()
-    EnableTriggerGroup("wudangFight",false)
-    --EnableTriggerGroup("wudangFind",false)
-    return go(wudangFangqi,"武当山","三清殿")
+function shoumuFindFail()
+    EnableTriggerGroup("shoumuFight",false)
+    --EnableTriggerGroup("shoumuFind",false)
+    return go(shoumuFangqi,"武当山","三清殿")
 end
 faintFunc = faintFunc or {}
-faintFunc["wudang"] = "wudangFaint"
-function wudangFaint()
-    return wudangFindFail()
+faintFunc["shoumu"] = "shoumuFaint"
+function shoumuFaint()
+    return shoumuFindFail()
 end
-function wudanglevel(n,l,w)
+function shoumulevel(n,l,w)
     job.level=w[2]
     messageShow('WD job level:【'..job.level..'】')
 end
-function wudangTriggerDel()
-    DeleteTriggerGroup("wudangdebug")
-    DeleteTriggerGroup("wudangAsk")
-    DeleteTriggerGroup("wudangAccept")
-    DeleteTriggerGroup("wudangFight")
-    DeleteTriggerGroup("wudangFinish")
-    DeleteTriggerGroup("wudangFind")
+function shoumuTriggerDel()
+    DeleteTriggerGroup("shoumudebug")
+    DeleteTriggerGroup("shoumuAsk")
+    DeleteTriggerGroup("shoumuAccept")
+    DeleteTriggerGroup("shoumuFight")
+    DeleteTriggerGroup("shoumuFinish")
+    DeleteTriggerGroup("shoumuFind")
 end
-function wudangNobody()
-    EnableTriggerGroup("wudangAsk",false)
-    wudang()
+function shoumuNobody()
+    EnableTriggerGroup("shoumuAsk",false)
+    shoumu()
 end
-job.list["wudang"] ="武当杀恶贼"
-function wudang()
+job.list["shoumu"] ="武当杀恶贼"
+function shoumu()
     if hp.shen<0 then
 	   return turnShen('+')
 	end
 	  dis_all()
-    wudangTrigger()
+    shoumuTrigger()
     job.level=nil
     job.addr = nil
     job.title = nil
     job.lost=0
-    job.name='wudang'
-    return check_halt(wudangGo)
+    job.name='shoumu'
+    return check_halt(shoumuGo)
 end
-function wudangGo()
-    return go(wudangBegin,"武当山","三清殿")
+function shoumuGo()
+    return go(shoumuBegin,"武当山","三清殿")
 end
-function wudangBegin()
+function shoumuBegin()
     if newbie==1 then return zhunbeineili(wdstart) else return wdstart() end
 end
 function wdstart()
-    return prepare_lianxi(wudangStart)
+    return prepare_lianxi(shoumuStart)
 end
-function wudangStart()
-    EnableTriggerGroup("wudangAsk",true)
+function shoumuStart()
+    EnableTriggerGroup("shoumuAsk",true)
     flag.idle = nil
     return exe('ask song yuanqiao about job')
 end
-function wudangAsk()
-    EnableTriggerGroup("wudangAsk",false)
-    EnableTriggerGroup("wudangAccept",true)
+function shoumuAsk()
+    EnableTriggerGroup("shoumuAsk",false)
+    EnableTriggerGroup("shoumuAccept",true)
 end
-function wudangBusy()
-    EnableTriggerGroup("wudangAccept",false)
-	job.last='wudang'
-    return check_bei(wudangBusyDazuo)
+function shoumuBusy()
+    EnableTriggerGroup("shoumuAccept",false)
+	job.last='shoumu'
+    return check_bei(shoumuBusyDazuo)
 end
-function wudangBusyDazuo()
+function shoumuBusyDazuo()
     exe('n')
-    return prepare_lianxi(wudang)
+    return prepare_lianxi(shoumu)
 end
-function wudangFail()
-    EnableTriggerGroup("wudangAccept",false)
+function shoumuFail()
+    EnableTriggerGroup("shoumuAccept",false)
     job.wdtime=os.time() + 40
    if job.level=='已入化境' then
       job.level='未知'
     messageShow('武当任务：当前接到【已入化境】任务，现在开始化任务等级为【'..job.level..'】！','red')
-		return check_bei(wudangHuajing_GoAgain)
+		return check_bei(shoumuHuajing_GoAgain)
 	 end
-    wudangTriggerDel()
+    shoumuTriggerDel()
     job.lost=0
-    job.last='wudang'
+    job.last='shoumu'
    if score.party=='华山派' and hp.shen<0 then
     return clb()
    end
    return check_heal()
 end
-function wudangConsider(n,l,w)
+function shoumuFind(n,l,w)
     nobusy=1
     job.time.b=os.time()
-    job.last='wudang'
-    job.addr=Trim(w[2])
-    job.title=Trim(w[3])
-    job.target=Trim(w[4])
+    job.last='shoumu'
     job.killer={}
-    job.killer[job.target]=true
-    job.where=Trim(w[5])
 	--Note(job.where)
-	if string.find(job.where,"周围") then
-	   local l_cnt = string.find(job.where,"周围")
-	   job.where=string.sub(job.where,1,l_cnt-1)
-	   --Note(job.where)
-	end
-    job.room,job.area=getAddr(job.where)
-	if type(job.room)=="string" and string.find(job.room,"字门") then
-	   job.room="紫杉林"
-	end
 end
-function wudangNpc(n,l,w)
-    EnableTriggerGroup("wudangAccept",false)
-    EnableTrigger("wudangAccepta",true)
-    EnableTrigger("wudangAcceptb",true)
+function shoumuNpc(n,l,w)
+    EnableTriggerGroup("shoumuAccept",false)
+    EnableTrigger("shoumuAccepta",true)
+    EnableTrigger("shoumuAcceptb",true)
 	sxjob.skills=tostring(w[3])
    if string.find(sxjob.skills,"棍") then
        exe('set po 枪')
@@ -221,8 +268,8 @@ function wudangNpc(n,l,w)
        exe('set po 掌')
     end
 end
-function wudangFindGo()
-  EnableTriggerGroup("wudangAccept",false)
+function shoumuFindGo()
+  EnableTriggerGroup("shoumuAccept",false)
     dest.room=job.room
     dest.area=job.area
 	job.wdtime=os.time() + 8*60
@@ -231,37 +278,37 @@ function wudangFindGo()
 	pfmjineng()
     if not job.room or not path_cal() then
        messageShow('武当任务：任务地点【'..job.where..'】不可到达，任务放弃。')
-       return check_bei(wudangFangqi)
+       return check_bei(shoumuFangqi)
     end
 	if skillIgnores[sxjob.skills] then
        messageShow('武当任务：'.. job.target ..'使用的武功是【'..sxjob.skills..'】不可力敌，任务放弃。')
-	   return check_bei(wudangFangqi)
+	   return check_bei(shoumuFangqi)
 	end
 	if job.level=='已入化境' then
-		return check_bei(wudangHuajing_Fangqi)
+		return check_bei(shoumuHuajing_Fangqi)
 	end
 	   messageShow('武当任务概要：任务地点【'..job.where..'】，人物姓名【'..job.target..'】，使用技能【'..sxjob.skills..'】！')
 	   messageShow('武当任务：现在开始前往【'..job.where..'】！')
-       return check_bei(wudangFind)
+       return check_bei(shoumuFind)
 end
-function wudangHuajing_Fangqi()
-    EnableTriggerGroup("wudangAccept",false)
+function shoumuHuajing_Fangqi()
+    EnableTriggerGroup("shoumuAccept",false)
     messageShow('武当任务：假装放弃已入化境!','greenyellow')
-    return check_bei(wudangFangqiAsk)
+    return check_bei(shoumuFangqiAsk)
 end
-function wudangHuajing_GoAgain()
+function shoumuHuajing_GoAgain()
 	job.wdtime=os.time() + 5*60
 	messageShow('武当任务概要：任务地点【'..job.where..'】，人物姓名【'..job.target..'】，使用技能【'..sxjob.skills..'】！','greenyellow')
   messageShow('武当任务：现在开始前往【'..job.where..'】！','greenyellow')
-       return check_bei(wudangFind)
+       return check_bei(shoumuFind)
 end
-function wudangFangqiGo()
-    DeleteTimer("wudang")
+function shoumuFangqiGo()
+    DeleteTimer("shoumu")
     messageShow('被武当任务NPC打晕了，任务放弃！')
     geta()
-    go(wudangFangqi,'武当山','三清殿')
+    go(shoumuFangqi,'武当山','三清殿')
 end
-function wudangFangqi()
+function shoumuFangqi()
 exe('nick 武当任务放弃')
     exe('unset no_kill_ap')
     dis_all()
@@ -271,153 +318,153 @@ job.addr = nil
 job.title = nil
 job.lost = 0
 nobusy=0
-    EnableTriggerGroup("wudangAccept",false)
-    check_bei(wudangFangqiAsk)
+    EnableTriggerGroup("shoumuAccept",false)
+    check_bei(shoumuFangqiAsk)
 end
-function wudangFangqiAsk()
-    EnableTriggerGroup("wudangAsk",true)
+function shoumuFangqiAsk()
+    EnableTriggerGroup("shoumuAsk",true)
     exe('ask song yuanqiao about 放弃')
 end
-function wudangFind()
-    DeleteTriggerGroup("wudangFind")
-    create_trigger_t('wudangFind1','^(> )*\\D*'..job.addr..''..job.title..' '..job.target..'\\((\\D*)\\)','','wudangTarget')
-    create_trigger_t('wudangFind2',"^(> )*".. job.target .."对着你发出一阵阴笑，说道",'','wudangFindKill')
-    SetTriggerOption("wudangFind1","group","wudangFind")
-    SetTriggerOption("wudangFind2","group","wudangFind")
+function shoumuFind()
+    DeleteTriggerGroup("shoumuFind")
+    create_trigger_t('shoumuFind1','^(> )*\\D*'..job.addr..''..job.title..' '..job.target..'\\((\\D*)\\)','','shoumuTarget')
+    create_trigger_t('shoumuFind2',"^(> )*".. job.target .."对着你发出一阵阴笑，说道",'','shoumuFindKill')
+    SetTriggerOption("shoumuFind1","group","shoumuFind")
+    SetTriggerOption("shoumuFind2","group","shoumuFind")
     flag.times=1
     flag.robber=false
 	exe('unset wimpy;jifa all;set wimpycmd pfmpfm\\hp')
-    go(wudangFindAct,job.area,job.room)    
+    go(shoumuFindAct,job.area,job.room)    
 end
-function wudangdebugFind()
-    DeleteTriggerGroup("wudangFind")
-    create_trigger_t('wudangFind1','^(> )*\\D*'..job.target..'\\((\\D*)\\)','','wudangTarget')
-    SetTriggerOption("wudangFind1","group","wudangFind")
+function shoumudebugFind()
+    DeleteTriggerGroup("shoumuFind")
+    create_trigger_t('shoumuFind1','^(> )*\\D*'..job.target..'\\((\\D*)\\)','','shoumuTarget')
+    SetTriggerOption("shoumuFind1","group","shoumuFind")
     flag.times=1
     flag.robber=false
 	exe('unset wimpy;jifa all;set wimpycmd pfmpfm\\hp')
-    go(wudangFinddebug,job.area,job.room)    
+    go(shoumuFinddebug,job.area,job.room)    
 end
-function wudangFinddebug()
-    EnableTriggerGroup("wudangFind",true)
-    DeleteTimer("wudang")
+function shoumuFinddebug()
+    EnableTriggerGroup("shoumuFind",true)
+    DeleteTimer("shoumu")
     job.flag()
     exe('look')
     find()
     messageShow('武当任务：开始重新寻找【'..dest.area .. dest.room ..'】的'..'【'.. job.target ..'】！')
 end
-function wudangFindAct()
-    EnableTriggerGroup("wudangFind",true)
-    DeleteTimer("wudang")
+function shoumuFindAct()
+    EnableTriggerGroup("shoumuFind",true)
+    DeleteTimer("shoumu")
     job.flag()
     exe('look')
     find()
     messageShow('武当任务：已到达任务地点【'..job.where..'】，开始寻找【'..dest.area .. dest.room ..'】的'..'【'.. job.target ..'】！')
 end
-function wudangFindKill()
+function shoumuFindKill()
     dis_all()
     flag.robber=true
-    EnableTriggerGroup("wudangdebug",true)
-    EnableTrigger("wudangFind1",true)
+    EnableTriggerGroup("shoumudebug",true)
+    EnableTrigger("shoumuFind1",true)
     exe('look')
 end
-function wudangTarget(n,l,w)
-    EnableTriggerGroup("wudangFind",false)
+function shoumuTarget(n,l,w)
+    EnableTriggerGroup("shoumuFind",false)
     dis_all()
-    EnableTriggerGroup("wudangdebug",true)
-    EnableTriggerGroup("wudangFight",true)
+    EnableTriggerGroup("shoumudebug",true)
+    EnableTriggerGroup("shoumuFight",true)
     EnableTrigger("hpheqi1",true)
     job.id=string.lower(w[2])
     job.killer[job.target]=job.id
     exe('follow '..job.id)
 	exe('look '..job.id)
     exe('unset no_kill_ap')
-       wudangKillAct()
-      create_timer_s('wudang',5,'wudangMove')
+       shoumuKillAct()
+      create_timer_s('shoumu',5,'shoumuMove')
 end
-function wudangMove()
+function shoumuMove()
 	if job.id then
 	   exe('kick '..job.id)
 	   exe('kill '..job.id)
 	end
 end
-function wudangLost(n,l,w)
+function shoumuLost(n,l,w)
     job.lost=job.lost+1
     if job.lost>2 then
        job.lost=0
     messageShow('武当任务：搜索丢失【'.. job.target ..'】两次！回去放弃！')
-       return check_halt(wudangFindFail)
+       return check_halt(shoumuFindFail)
     end
     if job.id==Trim(w[2]) then
        dis_all()
-    EnableTriggerGroup("wudangdebug",true)
-       return wudangFind()
+    EnableTriggerGroup("shoumudebug",true)
+       return shoumuFind()
     end
 end
-function wudangKill()
+function shoumuKill()
     wait.make(function()
          wait.time(0.2)
-	 wudangKillAct()
+	 shoumuKillAct()
     end)
 end
-function wudangKillAct()
+function shoumuKillAct()
 fight.time.b=os.time()
     flag.robber=true
     exe('set wimpy 99;yield no')
     exe('kick '..job.id)
     exe('kill '..job.id)
 end
-function wudangBack(n,l,w)
-    DeleteTimer("wudang")
+function shoumuBack(n,l,w)
+    DeleteTimer("shoumu")
     if w[2]==job.target then
-       EnableTriggerGroup("wudangFight",false)
-       EnableTriggerGroup("wudangFinish",true)
+       EnableTriggerGroup("shoumuFight",false)
+       EnableTriggerGroup("shoumuFinish",true)
        tmp.number=0
        DeleteTimer("perform")
-	   DeleteTimer("wudang")
-       check_halt(wudangBackGet)
+	   DeleteTimer("shoumu")
+       check_halt(shoumuBackGet)
        fight.time.e=os.time()
        fight.time.over=fight.time.e-fight.time.b
        messageShowT('武当任务：搞定'..'【'.. job.target ..'】！战斗用时:【'..fight.time.over..'】秒。')
     end
 end
-function wudangBackGet()
+function shoumuBackGet()
     geta()
-    wudangCk=0
-    EnableTriggerGroup("wudangFinish",true)
-    return go(wudangFinishWait,'武当山','三清殿')
+    shoumuCk=0
+    EnableTriggerGroup("shoumuFinish",true)
+    return go(shoumuFinishWait,'武当山','三清殿')
 end
-function wudangFinishWait()
-    if locl.id["宋远桥"] then
-	   return wudangFinishC()
+function shoumuFinishWait()
+    if locl.id["黄蓉"] then
+	   return shoumuFinishC()
         else
-	   return go(wudangFinishWait,'武当山','三清殿')
+	   return go(shoumuFinishWait,'武当山','三清殿')
     end
 end
-function wudangFinishT()
+function shoumuFinishT()
 	print('老宋夸我干得好。')
 	job.wdtime=0
 end
-function wudangFinishC()
+function shoumuFinishC()
 	print('等待老宋发奖励。')
-    if wudangjobok==0 and wudangCk<5 then
+    if shoumujobok==0 and shoumuCk<5 then
     wait.make(function()
          wait.time(1)
-	wudangCk=wudangCk+1
+	shoumuCk=shoumuCk+1
 	exe('out;enter')
-	return wudangFinishC()
+	return shoumuFinishC()
     end)
     else
-	return wudangFangqi()
+	return shoumuFangqi()
     end
 end
-function wudangFinish()
-    EnableTriggerGroup("wudangFinish",false)
-    wudangTriggerDel()
-    wudangjobok=0
-    wudangCk=0
+function shoumuFinish()
+    EnableTriggerGroup("shoumuFinish",false)
+    shoumuTriggerDel()
+    shoumujobok=0
+    shoumuCk=0
     nobusy=0
     job.lost=0
-    job.last='wudang'
+    job.last='shoumu'
     return check_halt(check_food)
 end

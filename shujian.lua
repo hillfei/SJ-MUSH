@@ -986,7 +986,10 @@ function lingwu_go()
     messageShow('去少林领悟')
 	jifaAll()
 
-    go(lingwu_unwield,'嵩山少林','达摩院')
+    go(lingwu_arrive,'嵩山少林','达摩院')
+end
+function lingwu_arrive()
+	return check_busy(lingwu_unwield)
 end
 function lingwu_unwield()
 	weapon_unwield()
@@ -2473,6 +2476,7 @@ function idle_set()
 end
 
 function checkWield()
+   --print( debug.traceback() )
    itemWield = {}
    exe('i')
 end
@@ -4351,6 +4355,7 @@ function drugGetVar()
     end
 end
 function setAlias()
+    create_alias_s('golingwu','golingwu','golingwu')
     create_alias_s('llgo','llgo','llgo')
     create_alias_s('stop','stop','disAll')
 	create_alias_s('iset','iset','shujian_set')        
@@ -4382,6 +4387,12 @@ function setAlias()
 	SetAliasOption ('dushu','send_to','12')
 	create_alias('full','^full(.*)$','fullSkill("%1")')
 	SetAliasOption ('full','send_to','12')
+end
+
+golingwu=function()
+    tmp.lingwu = 1
+	flag.lingwu = 1
+	return check_bei(lingwu_go)
 end
 
 llgo=function()
