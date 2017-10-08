@@ -23,7 +23,7 @@ road.wipe_who=nil
 road.wipe_con=nil
 road.resume=nil
 road.wait=0.2
-road.steps=8
+road.steps=9
 road.cmd=nil
 road.cmd_save=nil
 road.maze=nil
@@ -578,6 +578,7 @@ function path_create()
 
 end
 function path_start()
+	--print("run path_start")
     EnableTrigger("hp12",false)
     EnableTimer("roadWait",false)
 	DeleteTimer("roadWait",false)
@@ -597,9 +598,9 @@ function path_start()
        local _,_,func,params = string.find(l_road,"^#(%a%w*)%s*(.-)$")
        if func then
 		return _G[func](params)
-	end 
+		end 
     else
-    exe(l_road)
+		exe(l_road)
        exe('yun jingli')
        return walk_wait()
     end
@@ -818,16 +819,22 @@ function searchStart()
 	end
 	
 	if string.find(path,'#') or job.name~='huashan' then
-       return searchFunc(path)
+		--print("path:"..path)
+	   return searchFunc(path)
     else
-		print(string.sub(string.gsub(path, "halt;", ""),1,-2))
+		--print("alias:"..string.sub(string.gsub(path, "halt;", ""),1,-2))
 		exe(string.sub(string.gsub(path, "halt;", ""),1,-2))
 		_,tmpnum=string.gsub(path, ";", " ")
 		tmpsearch=tmpsearch+tmpnum
 		--print("n="..tmpsearch)
 		if tmpsearch>road.steps then
 			tmpsearch=3
-			return walk_wait()
+			--print("apath:"..path)
+			wait.make(function()
+				wait.time(0.2)
+				searchStart()
+			end)
+			--return walk_wait()
 		else
 			tmpsearch=tmpsearch+1
 			return searchStart()
@@ -836,7 +843,7 @@ function searchStart()
 
 end
 function searchFunc(path)
-	--Note("run searchFunc(path)")
+	--Note("run searchFunc")
     if flag.find==1 then return end
     if flag.wait==1 then return end
     road.pathset = road.pathset or {}
@@ -1170,7 +1177,7 @@ duhe_over=function()
 end
 duhe_wait=function()
     --exe('set 积蓄')
-    if hp.exp>2000000 then
+    if hp.exp>20000000 then
       exe('yun jing;yun qi;yun jingli;sxlian;dazuo '..hp.dazuo)
     else
       exe('yun jing;yun qi;yun jingli;dazuo '..hp.dazuo)
@@ -1309,7 +1316,7 @@ dujiang_over=function()
 end
 dujiang_wait=function()
     --exe('set 积蓄')
-    if hp.exp>2000000 then
+    if hp.exp>20000000 then
       exe('yun jing;yun qi;yun jingli;sxlian;dazuo '..hp.dazuo)
     else
       exe('yun jing;yun qi;yun jingli;dazuo '..hp.dazuo)
@@ -1368,8 +1375,11 @@ jqgout=function()
    DeleteTriggerGroup("jqgout")
    create_trigger_t('jqgout1','^>*\\s*你拿着兵刃怎么推动小舟？','','jqgout_weapon')
    create_trigger_t('jqgout2','^>*\\s*又划出三四里，溪流曲折，小舟经划过了几个弯后又回到溪边。','','jqgout_out')
+   create_trigger_t('jqgout3','^>*\\s*你要对谁做这个动作？','','jqgout_out')
+
    SetTriggerOption("jqgout1","group","jqgout")
    SetTriggerOption("jqgout2","group","jqgout")
+   SetTriggerOption("jqgout3","group","jqgout")
    jqgout_weapon()
 end
 jqgout_weapon=function()
@@ -1382,6 +1392,7 @@ jgqout_jump=function()
 end
 jqgout_out=function()
    EnableTriggerGroup("jqgout",false)
+	DeleteTriggerGroup("jqgout")
    exe('out')
    --thread_resume(walk)
    walk_wait()
@@ -1552,14 +1563,15 @@ local ZslInArea = {
 	["天字门｜雷字门----紫杉林----地字门｜风字门紫杉林"] = {"n","e","s","w"},
 	["地字门｜天字门----紫杉林----风字门｜雷字门紫杉林"] = {"w","n","e","s"},
 }
-local ZslMen = 1
-
 -------------by fqyy 新算法 20170502
+local ZslMen = 0
+local ZslMenRun = false
 function outzsl()
     fastLocate()
 	return checkWait(outzsl_check,0.5)
 end
 function outzsl_check()
+	ZslMenRun=false
 	if locl.room=="紫杉林" then
 		tmpr={}
 		tmpr=ZslOutArea[locl.room_relation]
@@ -1576,37 +1588,57 @@ function outzsl_check()
 	end
 end
 function tianMen()
-	mjMen(1)
+	mjMenF(1)
 end
 function diMen()
-	mjMen(2)
+	mjMenF(2)
 end
 function fengMen()
-	mjMen(3)
+	mjMenF(3)
 end
 function leiMen()
-	mjMen(4)
+	mjMenF(4)
 end
-function mjMen(namen)
+function mjMenF(namen)
 	ZslMen=namen
+	--ZslMenRun=false
+	mjMen()
+end
+function mjMen()
+	print("mjmen")
 	fastLocate()
+	ZslMenRun=true
 	wait.make(function()
 	   wait.time(0.5)
-		return mjMen_check()
+		return mjMen_checkF()
 	end)
 end
+function mjMen_checkF()
+	print("mencheckf")
+	ZslMenRun=false
+	mjMen_check()
+end
 function mjMen_check()
+	if ZslMenRun then
+		print("mencheck:"..locl.room.."|wait="..flag.wait.."|ZslMenRun=true")
+	else
+		print("mencheck:"..locl.room.."|wait="..flag.wait.."|ZslMenRun=false")		
+	end
 	if locl.room == "紫杉林" then
 		if flag.wait==0 then
-			local tmpr={}
-			tmpr=ZslInArea[locl.room_relation]
-			if tmpr~=nil then
-				exe(tmpr[ZslMen])
-				print("四门入口路径"..tmpr[ZslMen])
-			else
-				exe("n")
+			if not ZslMenRun then
+				local tmpr={}
+				tmpr=ZslInArea[locl.room_relation]
+				if tmpr~=nil then
+					exe(tmpr[ZslMen])
+					print("四门入口路径"..tmpr[ZslMen])
+				else
+					exe("n")
+				end
+				return mjMen()
 			end
-			return mjMen(ZslMen)
+		else
+			ZslMenRun=false
 		end
 	else
 		walk_wait()
@@ -2291,24 +2323,32 @@ function wdYmCheck()
     if locl.room~="小径" then
        return wdYmOver()
     end
-    create_timer_s('wdxjTimer',20,'wdYmRandom')
+    create_timer_s('wdxjTimer',16,'wdYmRandom')
 end
 function wdYmRandom()
     tmp.i=tmp.i+1
-    exe('s')
-    locate()
-    check_bei(wdYmCheck)
+    exe('n;n;n;n;n;n;n;n;n;s;s;s;s;s;s')
+    fastLocate()
+    wait.make(function() 
+		wait.time(0.5)
+		check_halt(wdYmCheck)
+	end)    
 end
 function wdYmGo(n,l,w)
-    local l_dir
-    DeleteTimer("wdxjTimer")
-    if w[1]=="东" then l_dir='e' end
-    if w[1]=="西" then l_dir='w' end
-    if w[1]=="南" then l_dir='s' end
-    if w[1]=="北" then l_dir='n' end
-    exe(l_dir)
-    locate()
-    check_bei(wdYmCheck)
+	if flag.wait==0 then
+		local l_dir
+		DeleteTimer("wdxjTimer")
+		if w[1]=="东" then l_dir='e' end
+		if w[1]=="西" then l_dir='w' end
+		if w[1]=="南" then l_dir='s' end
+		if w[1]=="北" then l_dir='n' end
+		exe("halt;"..l_dir)
+		fastLocate()
+		wait.make(function() 
+			wait.time(0.5)
+			check_halt(wdYmCheck)
+		end)    
+	end
 end
 function wdYmOver()
     DeleteTimer("wdxjTimer")
@@ -2470,13 +2510,13 @@ function toSldTrigger()
     create_trigger_t('mufabusy3','^(> )*你好象没有武器，拿手砍？','','sld_need_weapon')
     create_trigger_t('mufabusy4','^(> )*你要绑什么？','','wait_mufa')
 	create_trigger_t('mufabusy5','^*什么？','','wait_mufa')
-	--create_trigger_t('mufabusy6','^(> )*只见一阵海风吹来，木筏已缓缓向东飘去。','','toSldDelTrigger')
+	create_trigger_t('mufabusy6','^(> )*你拿起木筏上的一根木头，将木筏向前划去。','','toSldHua')
 	SetTriggerOption("mufabusy1","group","mufabusy")
     SetTriggerOption("mufabusy2","group","mufabusy")
     SetTriggerOption("mufabusy3","group","mufabusy")
     SetTriggerOption("mufabusy4","group","mufabusy")
     SetTriggerOption("mufabusy5","group","mufabusy")
-    --SetTriggerOption("mufabusy6","group","mufabusy")
+    SetTriggerOption("mufabusy6","group","mufabusy")
     EnableTriggerGroup("mufabusy",true)
 	toSldChop()
 end
@@ -2501,23 +2541,26 @@ function wait_mufa()
           end)
 end
 function mufaok(n,l,w)
-	print(w[2])
+	print("mufaokw--"..w[2])
 	if string.find(w[2],"你") then
+		print("mufaokw--toslddk")
 		EnableTriggerGroup("mufabusy",false)
 		DeleteTriggerGroup("mufabusy")
-		return toSldDukou()
+		toSldDukou()
 	else
 		sld_need_weapon()
 	end
 end
 function toSldCheck()
-    if locl.room=="小木筏" or locl.room=="木筏" then
+    print("toSldCheck")
+	if locl.room=="小木筏" or locl.room=="木筏" then
        return toSldHua()
     else
-       return check_halt(toSld,2)
+       return check_halt(toSld)
     end
 end
 function toSldHua()
+	print("toSldHua")
     sld_unwield()
     exe('hua mufa')
     wait.make(function()
@@ -2526,11 +2569,17 @@ function toSldHua()
           end)
 end
 function toSldDukou()
-    locate()
-    check_halt(toSldDkCheck,2)
+    print("toSldDukou")
+	fastLocate()
+	wait.make(function()
+            wait.time(2)
+            return toSldDkCheck()
+    end)
 end
 function toSldDkCheck()
-    if locl.room=="渡口" then
+     print("toSldDkCheck")
+	toSldDelTrigger()
+	if locl.room=="渡口" then
        return toSldOver()
     elseif locl.room=="小木筏" or locl.room=="木筏" then
        return toSldHua()
@@ -2770,13 +2819,18 @@ function inxiaofu()
 	exe("n")
 	fastLocate()
 	wait.make(function()
-	   wait.time(0.5)
+	   wait.time(1)
 		return xiaofu_check()
 	end)
 end
 function xiaofu_check()
 	if locl.room == "萧府大厅" then	
 		check_busy(walk_wait)
+	elseif locl.room == "萧府大门" then	
+		wait.make(function()
+		   wait.time(1)
+			return xiaofu_check()
+		end)
 	end
 end
 function xiaofuask()
@@ -2796,6 +2850,7 @@ end
 function xiaofugetchai()
 	exe("se;sw;ask ren feiyan about fqyy")
 end
+-----------雪山 招财大车店---------------
 function xsdachedian()
 	DeleteTriggerGroup("xsdcd")
 	create_trigger_t('xsdcd1',"^(> )*客官已经付了银子，怎么不住店就走了呢！旁人还以为小店伺候不周呢！",'','xsdachedian1')
@@ -2805,7 +2860,7 @@ function xsdachedian()
 	EnableTriggerGroup("xsdcd",true)
 	exe("w")
 	fastLocate()
-    create_timer_st('xsdcdtimer',2,'xsdcd_check')
+    create_timer_st('xsdcdtimer',1,'xsdcd_check')
 end
 function xsdcd_check()
 	if locl.room == "街道" then	

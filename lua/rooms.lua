@@ -9022,7 +9022,7 @@ Room {
 		["north"] = true,
 	},
 	lengths = {
-		["north"] = "if MidNight[locl.time] then return false else return 1 end",
+		["north"] = "if MidNight[locl.time] or MidHsDay[locl.time] then return false else return 1 end",
 	},
 }
 Room {
@@ -10710,11 +10710,11 @@ Room {
 		["east"] = "gumu/jqg/lang1",
 		["west"] = "gumu/jqg/lang5",
 	},
-	room_relative="休息室｜西厢长廊---西厢长廊---长廊｜休息室西厢长廊",
 	lengths = {
 		["south"] = "if score.gender and score.gender=='女' then return 1 else return false end",
 		["north"] = "if score.gender and score.gender=='男' then return 1 else return false end",
 	},
+	room_relative="休息室｜西厢长廊---西厢长廊---长廊｜休息室西厢长廊",
 }
 Room {
 	id = "gumu/jqg/lang5",
@@ -10722,7 +10722,10 @@ Room {
 	ways = {
 		["south"] = "gumu/jqg/zhifang",
 		["east"] = "gumu/jqg/lang4",
-		--["north"] = "gumu/jqg/jianshi",
+		["north"] = "gumu/jqg/jianshi",
+	},
+	lengths = {
+		["north"] = "if not skills['dodge'] or skills['dodge'].lvl>130 then return 1 else return false end",
 	},
 	room_relative="剑室｜西厢长廊---西厢长廊｜芝房西厢长廊",
 }
@@ -12051,9 +12054,9 @@ Room {
 	id = "hj/hswz",
 	name = "黑石围子",
 	ways = {
-		["southeast"] = "xingxiu/shamo",
+		["southeast"] = "xingxiu/shamo13",
 		["southwest"] = "hj/caoyuan10",
-		["south"] = "xingxiu/shamo",
+		["south"] = "xingxiu/shamo13",
 		["north"] = "hj/gebin",
 	},
 	lengths={
@@ -18427,10 +18430,6 @@ Room {
 		["west"] = {
 			{id = "jiao zhong", exp = 100000, party = "明教"},
 		},
-	},
-	lengths={
-	     ["east"] = 5,
-	     ["west"] = 5,
 	},
 }
 Room {
@@ -30763,12 +30762,12 @@ Room {
 	ways = {
 		["south"] = "wudang/yuanmen",
 		["north"] = "wudang/xiaolu1",
-		["#wdYm"] = "wudang/yuanmen",
+		--["#wdYm"] = "wudang/yuanmen",
 		["s"] = "wudang/xiaolu3",
 	},
 	lengths = {
 		["south"] = "if score.master and hp.shen>=0 and score.master=='张三丰' then return 3 else return false end",
-		["#wdYm"] = "if score.master and score.master=='张三丰' then return false else return 5 end",
+		--["#wdYm"] = "if score.master and score.master=='张三丰' then return false else return 5 end",
 		["s"] = "if score.master and score.master=='张三丰' then return false else return 1 end",
 	},
 }
@@ -30780,10 +30779,6 @@ Room {
 		["west"] = "wudang/xiaolu5",
 		["north"] = "wudang/xiaolu6",
 	},
-	lengths = {
-		["west"] = 2,
-		["north"] = 3,
-	},
 }
 Room {
 	id = "wudang/xiaolu4",
@@ -30792,9 +30787,6 @@ Room {
 		["east"] = "wudang/xiaolu3",
 		["west"] = "wudang/xiaolu5",
 		["south"] = "wudang/xiaolu6",
-	},
-	lengths = {
-		["south"] = 3,
 	},
 }
 Room {
@@ -30814,9 +30806,11 @@ Room {
 		["west"] = "wudang/xiaolu4",
 		["south"] = "wudang/xiaolu5",
 		["north;north;north;north;north;north;north;north;north;north"] = "wudang/lgfang",
+		["#wdYm"] = "wudang/yuanmen",
 	},
 	lengths = {
 	    ["north;north;north;north;north;north;north;north;north;north"] = 10,
+		["#wdYm"] = 5,
 	},
 }
 
@@ -33582,11 +33576,36 @@ Room {
 	name = "山洞",
 	ways = {
 		["out"] = "xingxiu/shanshi",
+		["zuan"] = "xingxiu/cave2",
 	},
 	objs = {
           ["巨蟒"] = "ju mang",
           ["毒蛇"] = "du she",
            },
+	precmds = {
+		["zuan"] = "use fire;#walkBusy",
+	},
+	lengths = {
+		["zuan"] = "if Bag['火折'] then return 10 else return false end",
+	},
+	room_relative="山洞∨山石山洞",
+}
+Room {
+	id = "xingxiu/cave2",
+	name = "山洞",
+	ways = {
+		["zuan out"] = "xingxiu/cave",
+	},
+	objs = {
+          ["飘然子"] = "piaoran zi",
+	},
+	precmds = {
+		["zuan out"] = "use fire;#walkBusy",
+	},
+	lengths = {
+		["zuan out"] = "if Bag['火折'] then return 10 else return false end",
+	},
+	room_relative="山洞山洞",
 }
 Room {
 	id = "xingxiu/chufang",
@@ -33822,6 +33841,7 @@ Room {
 	ways = {
 		["w;w;w;w;w;w;w;w;w;w"] = "hj/caoyuan",
 		["e;e;e;e;e;e;e;e;e;e"] = "xingxiu/silk9",
+		["north"] = "xingxiu/shamo1",
 	},
 	nolooks = {
 		["w;w;w;w;w;w;w;w;w;w"] = true,
@@ -33834,17 +33854,6 @@ Room {
 	lengths = {
 		["w;w;w;w;w;w;w;w;w;w"] = 10,
 		["e;e;e;e;e;e;e;e;e;e"] = 10,
-	},
-	find = {
-		path = {"n"}, count = 10,
-	},
-}
---[[
-Room {
-	id = "xingxiu/shamo",
-	name = "大沙漠",
-	ways = {
-		["north"] = "xingxiu/shamo1",
 	},
 }
 Room {
@@ -34343,12 +34352,6 @@ Room {
     ["e;e;e"] = true,
     ["w;w;w"] = true,
   },
-    lengths = {
-    ["s;s;s;s;s;s;s"] = 30,
-    ["n;n;n;n;n;n"] = 30,
-    ["e;e;e"] = 30,
-    ["w;w;w"] = 30,
-  },  
 }
 Room {
 	id = "xingxiu/yaolu",
