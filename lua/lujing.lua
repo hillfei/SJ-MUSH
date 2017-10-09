@@ -1177,7 +1177,7 @@ duhe_over=function()
 end
 duhe_wait=function()
     --exe('set Л§аю')
-    if hp.exp>20000000 then
+    if hp.exp>2000000 then
       exe('yun jing;yun qi;yun jingli;sxlian;dazuo '..hp.dazuo)
     else
       exe('yun jing;yun qi;yun jingli;dazuo '..hp.dazuo)
@@ -1316,7 +1316,7 @@ dujiang_over=function()
 end
 dujiang_wait=function()
     --exe('set Л§аю')
-    if hp.exp>20000000 then
+    if hp.exp>2000000 then
       exe('yun jing;yun qi;yun jingli;sxlian;dazuo '..hp.dazuo)
     else
       exe('yun jing;yun qi;yun jingli;dazuo '..hp.dazuo)
